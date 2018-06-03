@@ -81,3 +81,17 @@
 (defn ^IList persistent!
   [^IForkable coll]
   (.forked coll))
+
+
+;; READERS
+;; -------
+(defn read-list [coll]
+  (apply list coll))
+
+(defn read-dict [m]
+  (apply dict (flatten (seq m))))
+
+(set! *data-readers*
+      (assoc *data-readers*
+             'list #'read-list
+             'dict #'read-dict))
