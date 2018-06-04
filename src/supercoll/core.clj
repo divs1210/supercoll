@@ -1,6 +1,8 @@
 (ns supercoll.core
-  (:refer-clojure :exclude [butlast count get list nth persistent! rest set transient])
-  (:import [io.lacuna.bifurcan IForkable ILinearizable IList IMap List Map]))
+  (:refer-clojure :exclude [butlast count get list nth persistent! rest remove set transient update])
+  (:import [io.lacuna.bifurcan IForkable ILinearizable IList IMap List Map]
+           java.util.function.UnaryOperator
+           java.util.stream.Stream))
 
 ;; Hashmap
 ;; =======
@@ -13,6 +15,18 @@
    (get d k nil))
   ([^IMap d k default]
    (.get d k default)))
+
+(defn ^IMap put
+  [^IMap d k v]
+  (.put d k v))
+
+(defn ^IMap remove
+  [^IMap d k]
+  (.remove d k))
+
+(defn ^IMap update
+  [^IMap d k f]
+  (put d k (f (get d k))))
 
 
 ;; List
